@@ -1,5 +1,5 @@
 data "vault_generic_secret" "aws_creds" {
-  path = "kv/modules-secret"
+  path = "kv/module-secret"
 }
 
 provider "aws" {
@@ -20,4 +20,10 @@ module "vpc" {
   private_app_subnet_az2_cidr  = var.private_app_subnet_az2_cidr
   private_data_subnet_az1_cidr = var.private_data_subnet_az1_cidr
   private_data_subnet_az2_cidr = var.private_data_subnet_az2_cidr
+}
+
+# create security group
+module "security_group" {
+  source = "../modules/security-groups"
+  vpc_id = module.vpc.vpc_id
 }
